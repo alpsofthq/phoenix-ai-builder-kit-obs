@@ -22,6 +22,8 @@ class ClientTests(unittest.TestCase):
         self.assertIn("symbol=005930", client.request_for(["disclosures", "005930"])[0])
         self.assertIn("TEST%3A", client.request_for(["analysis", "TEST:0000000000-26-000001"])[0])
         self.assertEqual(len(client.request_for(["screener", "US"])[1]["queries"]), 1)
+        self.assertEqual(client.request_for(["short-volume", "005930"]), ("/companies/005930/short-selling?series=volume&limit=5", None))
+        self.assertEqual(client.request_for(["short-balance", "AAPL"]), ("/companies/AAPL/short-selling?series=balance&limit=5", None))
         for args in [["quote", "AAPL"], ["screener", "JP"], ["analysis", "../key"]]:
             with self.assertRaises(ValueError):
                 client.request_for(args)
@@ -42,7 +44,7 @@ class ClientTests(unittest.TestCase):
         self.assertTrue(client.call_api(client.request_for(["screener", "US"]), KEY, Opener())["results"][0]["ok"])
 
     def test_errors_are_not_retried_or_dumped(self):
-        for status in [401, 403, 404, 429, 503]:
+        for status in [401, 403, 404, 410, 429, 503]:
             calls = []
 
             class Opener:

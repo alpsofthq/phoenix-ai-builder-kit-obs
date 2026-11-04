@@ -52,6 +52,16 @@ python3 examples/python/quickstart.py disclosures 005930
 
 PowerShell: set `$env:PHOENIX_DATA_KEY = 'YOUR_TEAM_KEY'` locally. Other commands: `quote 005930`, `financials AAPL`, `us-filings AAPL`, `screener US`, `earnings`, `analysis FILING_ID`. Each command sends one request, with a 20-second timeout and no automatic retries. Keep API keys on your server or local CLI, never in a public frontend bundle.
 
+## Short selling and verification recovery
+
+KR/US short-selling observations are included: `GET /companies/{symbol}/short-selling?series=volume` for daily trading, or `series=balance` for reported positions. DATA MCP: `get_short_selling`. Examples: `short-volume 005930` and `short-balance AAPL` in either CLI.
+
+Korean ratios use trading value; US ratios use reported off-exchange volume, not all US-market volume. Positions are not securities lending or the sum of daily short sales. Quantity is shares, Korean value is KRW, and ratios are percentages. Display `data[].date` (observation/settlement date), not `meta.as_of` (response assembly time), as the observation date. US position coverage and freshness vary by symbol; do not present old records as current balances. Missing numbers are `null`; no observations return an empty array and `meta.status=not_available`. Pagination defaults to 50, maximum 200, with inclusive `from`/`to` and `next_cursor`.
+
+Global clinical trials are excluded and retired from DATA API. Eligible non-Builder accounts receive `410 ENDPOINT_RETIRED`; Builder scope denial may occur first. The clinical-trials MCP tool has been removed.
+
+If you close email verification, use the resume banner on the application page in the same browser, or the continue-verification link in a new verification email on another device. Expired or locked codes can be resent from that page. Older emails without a link require reapplying; existing passwords and quotas are preserved. Keep both codes and recovery links private.
+
 ## MCP
 
 Copy/merge [Claude Code config](../config/claude.mcp.json.example) into `.mcp.json`, or [Cursor config](../config/cursor.mcp.json.example) into `.cursor/mcp.json`. Start the app with `PHOENIX_DATA_KEY` in its environment. Claude uses `${PHOENIX_DATA_KEY}`; Cursor uses `${env:PHOENIX_DATA_KEY}`. Remote MCP does not automatically load this repo's `.env`. See [Claude documentation](https://code.claude.com/docs/en/mcp#environment-variable-expansion-in-mcpjson) and [Cursor documentation](https://cursor.com/docs/mcp#config-interpolation).
@@ -69,4 +79,4 @@ First ask: “Use get_api_usage to check my markets, remaining allowance and exp
 
 Public integration questions: [Issues](https://github.com/alpsofthq/phoenix-ai-builder-kit-obs/issues). Account/private issues or continued use: [contact](https://openapi.chickstockfi.com/en/request) or help@alpsoft.io. Include time, method/path, status, error code and request ID, **never credentials or full payloads**.
 
-Verified 2026-11-04 · DATA API specification 1.18.0
+Verified 2026-11-04 · DATA API specification 1.19.0

@@ -51,6 +51,8 @@ Cursor의 변수 표기는 `${env:PHOENIX_DATA_KEY}`입니다. 원격 HTTP MCP�
 
 > run_data_query로 {"queries":[{"dataset":"screener","market":"US","limit":3}]}을 요청해 주세요. 데이터 기준 시각과 단위를 함께 표시해 주세요.
 
+> get_short_selling에 symbol="005930", series="volume", limit=5를 넣어 공매도 거래 추이를 보여 주세요. 잔고와 구분하고 관측일·단위를 표시해 주세요.
+
 `tools/list`에 실제 계정에서 사용할 수 있는 도구가 나옵니다. 예: `get_quote`(KR), `get_company_financials`, `list_us_filings`, `get_published_disclosure_analysis`, `get_earnings_calendar`. 도구 인자 스키마를 확인한 후 호출하세요.
 
 MCP가 HTTP 200을 반환해도 JSON-RPC `error` 또는 도구 결과의 `isError: true`이면 성공이 아닙니다. 429·권한 거절·만료를 무시하고 반복 호출하지 마세요. [오류 처리](troubleshooting.md)를 참고하세요.

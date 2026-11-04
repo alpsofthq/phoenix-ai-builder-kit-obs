@@ -14,6 +14,7 @@
 | 현재 시세·일별 가격 | KR | `GET /quotes/005930`, `GET /quotes/005930/daily` |
 | 재무·지표·매출 구성·배당·공시 가이던스 | KR, US | `GET /companies/{symbol}/financials`, `/metrics`, `/segments`, `/dividends`, `/guidance`, `/net-income-split` |
 | 스크리너·섹터·섹터 순위 | KR, US | `POST /query`: `screener`, `sector`, `sector_ranking` |
+| 공매도 거래·보고 잔고 | KR, US | `GET /companies/{symbol}/short-selling?series=volume` 또는 `series=balance` |
 | 공시 목록·원문 | KR | `GET /disclosures?symbol=005930`, `GET /disclosures/{14자리 접수번호}` |
 | SEC 공시 목록 | US | `GET /us-filings?symbol=AAPL&limit=2` |
 | 이미 공개된 AI 공시 분석 | KR, US | `GET /disclosures/{id}/analysis` |
@@ -36,6 +37,16 @@ Builder의 `POST /query`는 요청당 **쿼리 1개만** 받습니다. `market`�
 
 스크리너·섹터 결과에 포함된 가격·시가총액·밸류에이션은 프로젝트에서 활용할 수 있습니다. 미국 시세 엔드포인트나 가격 이력·스트리밍의 직접 호출은 제공하지 않습니다.
 
+### 공매도
+
+`GET /companies/005930/short-selling?series=volume&limit=5`처럼 조회합니다. 미국 종목은 `AAPL` 등 티커를 사용하세요. DATA MCP 도구는 `get_short_selling`입니다.
+
+- `volume`: 일별 공매도 거래. 한국의 비중은 **거래대금 기준**, 미국은 **보고된 장외 거래량 기준**입니다. 미국 전체 시장의 거래량 비중이 아닙니다.
+- `balance`: 한국의 보고된 순보유 공매도 잔고, 미국의 보고된 short interest입니다. 대차잔고와 구분하고 일별 거래량을 더해 잔고로 해석하지 마세요.
+- `data[].date`는 관측일·정산일, `updated_at`은 저장 갱신 시각, `meta.as_of`는 응답 구성 시각입니다. **최신 응답이 최신 관측값을 뜻하지 않습니다.** 특히 미국 잔고는 종목별 범위와 저장된 기준일을 확인하세요.
+- 수량은 주, 한국 금액은 원, 비율은 %입니다. 관측값 없음은 빈 배열(`meta.status=not_available`), 미확보 수치는 `null`이며 0이 아닙니다.
+- `from`·`to`는 포함 경계입니다. 기본 50개·최대 200개, 날짜 최신순으로 `next_cursor`를 이어 사용합니다. 저장된 데이터만 읽고 새 수집·시세 조회·AI 생성을 실행하지 않습니다.
+
 ### 이미 공개된 분석
 
 - 한국: 14자리 DART 접수번호. 미국: SEC 공시 목록의 `TICKER:ACCESSION` ID.
@@ -54,6 +65,7 @@ Builder의 `POST /query`는 요청당 **쿼리 1개만** 받습니다. `market`�
 | 신규 AI 처리 | 분석·번역·기사 생성, 캐시 미스 시 생성, 강제 갱신 |
 | 외부 컨센서스·애널리스트 리서치 | 일반 명세에 있어도 Builder에 포함되지 않습니다. |
 | 웹훅 | 등록·관리·이벤트 전달 모두 미제공. 허용 한도 안에서 필요한 데이터만 조회하세요. |
+| 글로벌 임상시험 | DATA API에서 제공 종료·deprecated 처리되었습니다. Builder 범위에도 포함되지 않습니다. |
 
 ## 기간과 한도
 

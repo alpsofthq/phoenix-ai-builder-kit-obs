@@ -10,6 +10,9 @@ test('examples use valid markets, required symbols and one query', () => {
   assert.equal(requestFor(['screener', 'US']).body.queries.length, 1);
   assert.match(requestFor(['analysis', 'TEST:0000000000-26-000001']).path, /TEST%3A/);
   assert.throws(() => requestFor(['analysis', '../key']));
+  assert.equal(requestFor(['short-volume','005930']).path,'/companies/005930/short-selling?series=volume&limit=5');
+  assert.equal(requestFor(['short-balance','AAPL']).path,'/companies/AAPL/short-selling?series=balance&limit=5');
+  assert.throws(() => requestFor(['short-balance','../key']));
 });
 
 test('auth, timeout and redirect policy accompany a single request', async () => {
@@ -27,7 +30,7 @@ test('auth, timeout and redirect policy accompany a single request', async () =>
   assert.equal(data.results[0].ok, true);
 });
 
-for (const status of [401, 403, 404, 429, 503]) test(`HTTP ${status} is not retried or dumped`, async () => {
+for (const status of [401, 403, 404, 410, 429, 503]) test(`HTTP ${status} is not retried or dumped`, async () => {
   let calls = 0;
   await assert.rejects(callApi(requestFor(['usage']), { key, fetchImpl: async () => {
     calls++;

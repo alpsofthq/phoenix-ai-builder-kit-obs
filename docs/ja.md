@@ -54,6 +54,16 @@ python3 examples/python/quickstart.py disclosures 005930
 
 PowerShellでは`$env:PHOENIX_DATA_KEY = 'YOUR_TEAM_KEY'`を設定します。他のコマンドは`quote 005930`、`financials AAPL`、`us-filings AAPL`、`screener US`、`earnings`、`analysis FILING_ID`です。実行1回につき1リクエスト、タイムアウト20秒、自動再試行なしです。キーはサーバーかローカルCLIで管理し、ブラウザの公開バンドルに入れないでください。
 
+## 空売りデータとメール認証の再開
+
+韓国・米国の空売り観測データを利用できます。`GET /companies/{symbol}/short-selling?series=volume`は日次取引、`series=balance`は報告された残高です。DATA MCPは`get_short_selling`、CLI例は`short-volume 005930`と`short-balance AAPL`です。
+
+韓国の比率は売買代金、米国は報告された取引所外取引量が基準です。米国市場全体の取引量比率ではありません。残高を貸株残高や日次取引量の合計と混同しないでください。数量は株、韓国の金額はウォン、比率は%です。観測・決済日は`data[].date`、保存更新時刻は`updated_at`、応答生成時刻は`meta.as_of`です。応答が新しくても観測値が新しいとは限りません。米国残高は銘柄別に対象範囲と基準日が異なります。欠損値は`null`、観測なしは空配列と`meta.status=not_available`です。1ページの既定は50件、最大200件で、`from`・`to`は境界日を含み、`next_cursor`で続けます。
+
+グローバル臨床試験データは対象外となり、DATA APIでも提供終了・deprecatedとなりました。利用可能な一般アカウントには`410 ENDPOINT_RETIRED`を返し、Builderは先に対象外として拒否される場合があります。MCPツールからも削除されています。
+
+メール認証画面を閉じた場合、同じブラウザでは申請ページの認証再開案内、別の端末では新しい認証メールの再開リンクを利用できます。期限切れ・ロックされた認証番号は再開画面から再送できます。古いメールにリンクがなければ再申請してください。既存パスワードや利用枠はリセットされません。認証番号と再開リンクは共有しないでください。
+
 ## MCP
 
 [Claude Code設定](../config/claude.mcp.json.example)を`.mcp.json`に、または[Cursor設定](../config/cursor.mcp.json.example)を`.cursor/mcp.json`に追加します。既存ファイルは上書きせず項目を統合してください。アプリの実行環境に`PHOENIX_DATA_KEY`を設定します。Claudeは`${PHOENIX_DATA_KEY}`、Cursorは`${env:PHOENIX_DATA_KEY}`を使います。リモートMCPはこのリポジトリの`.env`を自動では読み込みません。[Claude公式文書](https://code.claude.com/docs/en/mcp#environment-variable-expansion-in-mcpjson)・[Cursor公式文書](https://cursor.com/docs/mcp#config-interpolation)を参照してください。
@@ -71,4 +81,4 @@ PowerShellでは`$env:PHOENIX_DATA_KEY = 'YOUR_TEAM_KEY'`を設定します。�
 
 一般的な連携質問は[Issues](https://github.com/alpsofthq/phoenix-ai-builder-kit-obs/issues)、アカウント・非公開事項・継続利用は[お問い合わせ](https://openapi.chickstockfi.com/ja/request)またはhelp@alpsoft.ioへ。発生日時・経路・HTTP状態・エラーコード・リクエストIDを記載し、認証情報や全レスポンスは送らないでください。
 
-確認日：2026-11-04 · DATA API仕様1.18.0
+確認日：2026-11-04 · DATA API仕様1.19.0

@@ -2,7 +2,7 @@
 import { pathToFileURL } from 'node:url';
 
 const BASE = 'https://api.chickstockfi.com/openapi/v1';
-const HELP = 'usage | quote KR_CODE | financials SYMBOL | disclosures KR_CODE | us-filings TICKER | screener KR|US | earnings | analysis FILING_ID';
+const HELP = 'usage | quote KR_CODE | financials SYMBOL | short-volume SYMBOL | short-balance SYMBOL | disclosures KR_CODE | us-filings TICKER | screener KR|US | earnings | analysis FILING_ID';
 
 function requireMatch(value, pattern, label) {
   if (!pattern.test(value ?? '')) throw new Error(`Invalid ${label}. Run with --help.`);
@@ -16,6 +16,8 @@ export function requestFor([command = 'usage', argument, ...extra] = []) {
     case 'usage': one(); return { path: '/key' };
     case 'quote': return { path: `/quotes/${requireMatch(argument, /^[0-9A-Z]{6}$/, 'KR code')}` };
     case 'financials': return { path: `/companies/${requireMatch(argument, /^[A-Za-z0-9.\-]{1,12}$/, 'symbol')}/financials?account=revenue,operating_income&limit=8` };
+    case 'short-volume':
+    case 'short-balance': return { path: `/companies/${requireMatch(argument, /^[A-Za-z0-9.\-]{1,12}$/, 'symbol')}/short-selling?series=${command === 'short-volume' ? 'volume' : 'balance'}&limit=5` };
     case 'disclosures': return { path: `/disclosures?symbol=${requireMatch(argument, /^[0-9A-Z]{6}$/, 'KR code')}&limit=2` };
     case 'us-filings': return { path: `/us-filings?symbol=${requireMatch(argument, /^[A-Za-z][A-Za-z0-9.\-]{0,11}$/, 'US ticker')}&limit=2` };
     case 'screener': return { path: '/query', body: { queries: [{ dataset: 'screener', market: requireMatch(argument, /^(KR|US)$/, 'market'), limit: 3 }] } };

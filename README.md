@@ -57,6 +57,8 @@ node examples/javascript/quickstart.mjs disclosures 005930
 node examples/javascript/quickstart.mjs us-filings AAPL
 node examples/javascript/quickstart.mjs screener US
 node examples/javascript/quickstart.mjs earnings
+node examples/javascript/quickstart.mjs short-volume 005930
+node examples/javascript/quickstart.mjs short-balance AAPL
 ```
 
 Python도 동일한 인자를 받습니다. 예: `python3 examples/python/quickstart.py screener KR`.
@@ -71,6 +73,8 @@ node examples/javascript/quickstart.mjs analysis '목록에서 받은 공시 ID'
 
 신청 코드는 API 키가 아닙니다. 신청 코드를 공개 저장소에 넣지 마세요. 이메일 인증번호는 10분 동안 유효하고, 다섯 번 틀리면 새 번호를 받아야 합니다. 같은 이메일의 재신청은 비밀번호나 사용 한도를 초기화하지 않습니다. 기존 유료·PoC 계정 또는 중복 팀이 확인되면 담당자 확인이 필요합니다.
 
+인증 화면을 닫았다면 같은 브라우저의 신청 페이지에서 **인증 이어하기**를 누르세요. 다른 기기에서는 새 인증 이메일의 **인증 계속하기** 링크로 돌아올 수 있습니다. 만료된 번호는 인증 화면에서 다시 받을 수 있으며, 이전 번호는 사용할 수 없습니다. 복귀 링크도 다른 사람에게 공유하지 마세요.
+
 ## MCP로 연결하기
 
 [MCP 가이드](docs/mcp.md)에 Claude Code·Cursor 설정 파일과 첫 질문 예제를 준비했습니다. Builder는 **DATA MCP 주소와 DATA 키**를 사용합니다. PRO MCP·OAuth·`ck_pers_` 키는 대상이 아닙니다.
@@ -83,6 +87,7 @@ node examples/javascript/quickstart.mjs analysis '목록에서 받은 공시 ID'
 | 관심 종목 공시 도우미 | 한국/미국 공시 목록 + 이미 공개된 분석 + 원문 링크 |
 | 조건 기반 기업 탐색 | 스크리너 + 섹터·섹터 순위 |
 | 투자 일정 보드 | 미국 실적 일정 + 한국 IR·IPO 일정 + 경제 일정 |
+| 공매도 관측 대시보드 | 한국·미국 일별 공매도 거래 + 보고 잔고·기준일 |
 
 날짜·단위·통화·출처와 `meta.as_of`를 표시하고, 빈 데이터와 0을 구분하세요. 스크리너 안에 제공되는 가격·시가총액은 사용할 수 있지만, 이를 미국 시세 직접 조회·가격 이력·스트리밍 권한으로 해석하면 안 됩니다.
 
@@ -99,4 +104,8 @@ node examples/javascript/quickstart.mjs analysis '목록에서 받은 공시 ID'
 
 프로젝트 코드와 결과 화면 데모는 공개할 수 있습니다. 데이터 출처는 **Phoenix AI**로 표시해 주세요. 원본 응답 전체·데이터 덤프·재배포용 데이터셋 공개와 행사 후 계속 운영은 별도 협의가 필요합니다. [서비스 이용약관](https://openapi.chickstockfi.com/terms)을 함께 확인하세요.
 
-문서 확인일: 2026-11-04 · DATA API 명세 1.18.0 기준
+공매도 거래와 잔고는 서로 다른 지표입니다. 미국 거래는 보고된 장외 거래 범위이며, 잔고는 종목별 가용 여부·보고 기준일이 다릅니다. `data[].date`를 표시하고 오래된 관측값을 현재 잔고로 표현하지 마세요. [공매도 지표 안내](docs/coverage.md#공매도)
+
+글로벌 임상시험은 제공 대상에서 제외되었으며 DATA API에서도 deprecated 처리되었습니다.
+
+문서 확인일: 2026-11-04 · DATA API 명세 1.19.0 기준
