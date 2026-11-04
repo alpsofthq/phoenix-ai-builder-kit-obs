@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+.mcp.json
+.cursor/
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+*.log
+responses/

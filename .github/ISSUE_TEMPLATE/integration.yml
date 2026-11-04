@@ -1,0 +1,20 @@
+name: API / MCP integration question
+description: Ask about a request or report an integration problem. Never include credentials.
+body:
+  - type: markdown
+    attributes:
+      value: "API 키·비밀번호·세션·전체 응답을 올리지 마세요. 계정 문제는 https://openapi.chickstockfi.com/request 로 문의하세요. Do not include keys, passwords, sessions or full response payloads."
+  - type: textarea
+    id: request
+    attributes:
+      label: Request / 요청
+      description: Method, path or MCP tool, non-sensitive parameters, time and timezone.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Result / 결과
+      description: HTTP status, error code, request ID, expected result and client version. No credentials or full payloads.
+    validations:
+      required: true

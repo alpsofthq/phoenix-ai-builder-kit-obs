@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "phoenix-data": {
+      "url": "https://api.chickstockfi.com/openapi/v1/mcp",
+      "headers": { "Authorization": "Bearer ${env:PHOENIX_DATA_KEY}" }
+    }
+  }
+}
