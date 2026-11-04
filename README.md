@@ -2,6 +2,10 @@
 
 [English](docs/en.md) · [日本語](docs/ja.md)
 
+![OBA.RUN 시즌 2 — 2026년 11월 7일 해시드 라운지 행사 초기 안내](assets/oba-run-season-2-sponsor-call.png)
+
+> 주최 측의 2026년 10월 초기 안내 이미지입니다. 이미지의 Open Finance 주제 표기와 달리, 이후 운영진 안내에 따라 이번 행사는 **자유주제**로 진행됩니다. Phoenix AI 제공 범위와 이용 조건은 아래 가이드를 기준으로 확인해 주세요.
+
 2026년 11월 7일 OBA 해커톤 참가자를 위한 Phoenix AI DATA API·MCP 가이드와 실행 예제입니다. 한국 시세와 한국·미국 재무·공시·스크리너·일정 데이터를 조합해 금융 서비스를 만들어 보세요.
 
 이 저장소가 **Builder 참가자 안내의 기준 문서**입니다. 계정·키·사용량은 [개발자 포털](https://openapi.chickstockfi.com/login)에서 관리하고, 상세 필드는 [DATA API 레퍼런스](https://openapi.chickstockfi.com/docs)를 참고하세요. 전체 레퍼런스에 있는 모든 기능이 Builder에 포함되는 것은 아닙니다.
