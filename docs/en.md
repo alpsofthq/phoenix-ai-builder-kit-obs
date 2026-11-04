@@ -11,7 +11,7 @@ This repository is the participant guide and runnable example kit for **7 Novemb
 | REST base | `https://api.chickstockfi.com/openapi/v1` |
 | DATA MCP | `https://api.chickstockfi.com/openapi/v1/mcp` |
 | Authentication | `Authorization: Bearer YOUR_TEAM_KEY` (`ck_live_…`) |
-| Keys | Up to 2 active DATA keys per team; accounts are distributed through the organizers |
+| Keys | Up to 2 active DATA keys per team; apply with an organizer access code and email verification |
 | Pre-event | From account activation until **2026-11-07 00:00 KST**, exclusive: **1,000 total requests, 10 RPM** |
 | Event | **2026-11-07 00:00–2026-11-08 00:00 KST**, end exclusive: **10,000 total requests, 20 RPM** |
 | Concurrency | 2 requests per team; an event-wide congestion limit also applies |
@@ -33,6 +33,8 @@ Prices, market caps and valuations embedded in screener/sector outputs may be us
 `GET /disclosures` requires a KR `symbol`. Use `/us-filings` for SEC filings and `/earnings` for the **US** earnings calendar. `/symbols` is KR-only. Published analysis is available at `/disclosures/{id}/analysis`: use a 14-digit DART receipt or `TICKER:ACCESSION`, URL-encoded. Missing analyses return `404 ANALYSIS_NOT_AVAILABLE` and do not trigger generation. For US listings, `analysis=published` filters to published analyses.
 
 ## Quickstart
+
+One representative per team should [apply for Builder](https://openapi.chickstockfi.com/en/request?product=builder) with the organizer’s access code, verify their email and choose a password. Then sign in and create a DATA key. Already-issued accounts remain valid. Access codes are not API keys and must not be committed publicly. Verification codes expire after 10 minutes and lock after five incorrect attempts. Reapplying does not reset passwords or quotas; existing paid/PoC accounts and duplicate teams require review.
 
 Clone the repository, copy `.env.example` to `.env`, and replace `YOUR_TEAM_KEY` locally. With Node.js 22+ or Python 3.11+, no packages are required:
 

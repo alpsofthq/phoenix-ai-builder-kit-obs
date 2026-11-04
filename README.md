@@ -10,7 +10,7 @@
 
 | 항목 | 안내 |
 | --- | --- |
-| 계정 | 운영진을 통해 전달받는 팀별 계정, 활성 DATA 키 최대 2개 |
+| 계정 | 행사 코드·이메일 인증으로 신청하는 팀별 계정, 활성 DATA 키 최대 2개 |
 | 키 | `ck_live_`로 시작하는 DATA API 키. REST·MCP에서 같은 키 사용 |
 | REST Base URL | `https://api.chickstockfi.com/openapi/v1` |
 | DATA MCP | `https://api.chickstockfi.com/openapi/v1/mcp` |
@@ -24,7 +24,7 @@
 
 ## 3분 시작
 
-1. 전달받은 계정으로 [포털](https://openapi.chickstockfi.com/login)에 로그인합니다. 초기 DATA 키를 사용하거나 포털에서 키를 발급합니다.
+1. 팀 대표 한 명이 [Builder 신청](https://openapi.chickstockfi.com/request?product=builder)에서 주최 측이 안내한 신청 코드를 입력합니다. 이메일 인증 후 비밀번호를 설정하고, [포털](https://openapi.chickstockfi.com/login)에 로그인해 DATA 키를 만듭니다. 이미 계정을 받은 팀은 기존 계정을 그대로 사용하세요.
 2. 이 저장소를 복제하고 `.env.example`을 `.env`로 복사합니다. `.env`의 `YOUR_TEAM_KEY`를 **본인 팀의 DATA 키**로 바꿉니다.
 3. Node.js 22 이상 또는 Python 3.11 이상에서 아래 예제를 실행합니다. 추가 라이브러리는 필요 없습니다.
 
@@ -64,6 +64,8 @@ node examples/javascript/quickstart.mjs analysis '목록에서 받은 공시 ID'
 ```
 
 한국 ID는 14자리 DART 접수번호, 미국 ID는 `TICKER:ACCESSION`입니다. 예제가 URL 인코딩을 처리합니다. **분석이 없는 경우 `404 ANALYSIS_NOT_AVAILABLE`이며, 이 요청으로 새 분석이 생성되지 않습니다.**
+
+신청 코드는 API 키가 아닙니다. 신청 코드를 공개 저장소에 넣지 마세요. 이메일 인증번호는 10분 동안 유효하고, 다섯 번 틀리면 새 번호를 받아야 합니다. 같은 이메일의 재신청은 비밀번호나 사용 한도를 초기화하지 않습니다. 기존 유료·PoC 계정 또는 중복 팀이 확인되면 담당자 확인이 필요합니다.
 
 ## MCP로 연결하기
 

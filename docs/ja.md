@@ -11,7 +11,7 @@
 | REST Base URL | `https://api.chickstockfi.com/openapi/v1` |
 | DATA MCP | `https://api.chickstockfi.com/openapi/v1/mcp` |
 | 認証 | `Authorization: Bearer YOUR_TEAM_KEY`（`ck_live_…`） |
-| キー | 運営からチーム別アカウントを配布。有効なDATAキーは最大2個 |
+| キー | 主催者の申請コードとメール認証でチーム別アカウントを申請。有効なDATAキーは最大2個 |
 | 事前テスト | 有効化後〜**2026-11-07 00:00 KST未満**：累計**1,000回・10 RPM** |
 | 本イベント | **2026-11-07 00:00以上〜2026-11-08 00:00 KST未満**：累計**10,000回・20 RPM** |
 | 同時リクエスト | チームごとに最大2件。イベント全体の混雑制限も適用 |
@@ -35,6 +35,8 @@ KSTはUTC+09:00で、日本時間と同じです。全キー・REST・MCP・API�
 `GET /disclosures`には韓国の`symbol`が必要です。米国開示は`/us-filings`、**米国**決算予定は`/earnings`です。`/symbols`は韓国銘柄検索です。公開済み分析は`/disclosures/{id}/analysis`で取得します。IDは14桁のDART受付番号または`TICKER:ACCESSION`をURLエンコードして指定します。分析がない場合は`404 ANALYSIS_NOT_AVAILABLE`となり、新規生成は行いません。米国一覧では`analysis=published`で公開分析のある開示を絞り込めます。
 
 ## 実行例
+
+チーム代表者1名が [Builder 申請](https://openapi.chickstockfi.com/ja/request?product=builder)で主催者から受け取ったコードを入力し、メール認証後にパスワードを設定してください。ログイン後、DATA キーを作成します。発行済みアカウントは引き続き使用できます。申請コードは API キーではありません。公開リポジトリに保存しないでください。認証コードは10分間有効で、5回の誤入力でロックされます。再申請でパスワードや利用枠はリセットされません。既存の有料・PoC アカウントや重複チームは担当者が確認します。
 
 Node.js 22以上またはPython 3.11以上を使用します。追加パッケージは不要です。
 
