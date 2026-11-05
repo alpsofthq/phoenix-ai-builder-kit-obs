@@ -8,7 +8,7 @@ import urllib.parse
 import urllib.request
 
 BASE = "https://api.chickstockfi.com/openapi/v1"
-HELP = "usage | quote KR_CODE | financials SYMBOL | short-volume SYMBOL | short-balance SYMBOL | disclosures KR_CODE | us-filings TICKER | screener KR|US | earnings | analysis FILING_ID"
+HELP = "usage | quote KR_CODE | financials SYMBOL | short-volume SYMBOL | short-balance SYMBOL | disclosures KR_CODE | us-filings TICKER | screener KR|US | sectors KR|US | earnings | analysis FILING_ID"
 
 
 def request_for(args):
@@ -40,8 +40,8 @@ def request_for(args):
     if command == "us-filings":
         symbol = match(r"[A-Za-z][A-Za-z0-9.\-]{0,11}", "US ticker")
         return (f"/us-filings?symbol={symbol}&limit=2", None)
-    if command == "screener":
-        return ("/query", {"queries": [{"dataset": "screener", "market": match(r"KR|US", "market"), "limit": 3}]})
+    if command in ("screener", "sectors"):
+        return (f"/{command}?market={match(r'KR|US', 'market')}&limit=3", None)
     if command == "analysis":
         identifier = match(r"(?:\d{14}|[A-Za-z0-9.\-]+:\d{10}-\d{2}-\d{6})", "filing ID")
         return (f"/disclosures/{urllib.parse.quote(identifier, safe='')}/analysis", None)

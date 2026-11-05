@@ -7,7 +7,8 @@ test('examples use valid markets, required symbols and one query', () => {
   assert.match(requestFor(['disclosures', '005930']).path, /symbol=005930/);
   assert.throws(() => requestFor(['quote', 'AAPL']));
   assert.throws(() => requestFor(['screener', 'JP']));
-  assert.equal(requestFor(['screener', 'US']).body.queries.length, 1);
+  assert.equal(requestFor(['screener', 'US']).path, '/screener?market=US&limit=3');
+  assert.equal(requestFor(['sectors', 'KR']).path, '/sectors?market=KR&limit=3');
   assert.match(requestFor(['analysis', 'TEST:0000000000-26-000001']).path, /TEST%3A/);
   assert.throws(() => requestFor(['analysis', '../key']));
   assert.equal(requestFor(['short-volume','005930']).path,'/companies/005930/short-selling?series=volume&limit=5');
@@ -19,11 +20,11 @@ test('auth, timeout and redirect policy accompany a single request', async () =>
   let calls = 0;
   const data = await callApi(requestFor(['screener', 'US']), { key, fetchImpl: async (url, init) => {
     calls++;
-    assert.equal(url, 'https://api.chickstockfi.com/openapi/v1/query');
+    assert.equal(url, 'https://api.chickstockfi.com/openapi/v1/screener?market=US&limit=3');
     assert.equal(init.headers.Authorization, `Bearer ${key}`);
     assert.equal(init.redirect, 'error');
     assert.ok(init.signal instanceof AbortSignal);
-    assert.deepEqual(JSON.parse(init.body), { queries: [{ dataset: 'screener', market: 'US', limit: 3 }] });
+    assert.equal(init.method, 'GET'); assert.equal(init.body, undefined);
     return Response.json({ results: [{ ok: true, data: [] }] });
   } });
   assert.equal(calls, 1);

@@ -12,9 +12,9 @@
 | DATA MCP | `https://api.chickstockfi.com/openapi/v1/mcp` |
 | 認証 | `Authorization: Bearer YOUR_TEAM_KEY`（`ck_live_…`） |
 | キー | 主催者の申請コードとメール認証でチーム別アカウントを申請。有効なDATAキーは最大2個 |
-| 事前テスト | 有効化後〜**2026-11-07 00:00 KST未満**：累計**1,000回・10 RPM** |
-| 本イベント | **2026-11-07 00:00以上〜2026-11-08 00:00 KST未満**：累計**10,000回・20 RPM** |
-| 同時リクエスト | チームごとに最大2件。イベント全体の混雑制限も適用 |
+| 事前テスト | 有効化後〜**2026-11-07 00:00 KST未満**：累計**10,000回・60 RPM** |
+| 本イベント | **2026-11-07 00:00以上〜2026-11-08 00:00 KST未満**：累計**50,000回・120 RPM** |
+| 同時リクエスト | チームごとに最大4件。イベント全体の混雑制限も適用 |
 
 KSTはUTC+09:00で、日本時間と同じです。全キー・REST・MCP・APIドキュメントの試行はチームの利用枠を共有します。事前テスト分は本イベントの枠から差し引きません。キーの交換や日付変更では段階内の累計枠は回復しません。期間終了後はデータ取得が停止し、Freeプランへの移行はありません。
 
@@ -52,7 +52,7 @@ node examples/javascript/quickstart.mjs usage
 python3 examples/python/quickstart.py disclosures 005930
 ```
 
-PowerShellでは`$env:PHOENIX_DATA_KEY = 'YOUR_TEAM_KEY'`を設定します。他のコマンドは`quote 005930`、`financials AAPL`、`us-filings AAPL`、`screener US`、`earnings`、`analysis FILING_ID`です。実行1回につき1リクエスト、タイムアウト20秒、自動再試行なしです。キーはサーバーかローカルCLIで管理し、ブラウザの公開バンドルに入れないでください。
+PowerShellでは`$env:PHOENIX_DATA_KEY = 'YOUR_TEAM_KEY'`を設定します。他のコマンドは`quote 005930`、`financials AAPL`、`us-filings AAPL`、`screener US`、`sectors US`、`earnings`、`analysis FILING_ID`です。実行1回につき1リクエスト、タイムアウト20秒、自動再試行なしです。キーはサーバーかローカルCLIで管理し、ブラウザの公開バンドルに入れないでください。
 
 ## 空売りデータとメール認証の再開
 
@@ -82,3 +82,5 @@ PowerShellでは`$env:PHOENIX_DATA_KEY = 'YOUR_TEAM_KEY'`を設定します。�
 一般的な連携質問は[Issues](https://github.com/alpsofthq/phoenix-ai-builder-kit-obs/issues)、アカウント・非公開事項・継続利用は[お問い合わせ](https://openapi.chickstockfi.com/ja/request)またはhelp@alpsoft.ioへ。発生日時・経路・HTTP状態・エラーコード・リクエストIDを記載し、認証情報や全レスポンスは送らないでください。
 
 確認日：2026-11-04 · DATA API仕様1.19.0
+
+スクリーナーとセクター: `GET /screener?market=US&limit=10`、`GET /sectors?market=US&metric=PER&limit=10`。既存のクエリエンジンと同じデータです。`results[0].ok/status`を確認して`results[0].data`を参照してください。limitは上位件数（1〜30）で、ページネーションではありません。POST /queryも引き続き利用可能です。経済カレンダーは対象ですが、経済指標の時系列（/macro/*）と外部コンセンサス・アナリストリサーチは対象外です。

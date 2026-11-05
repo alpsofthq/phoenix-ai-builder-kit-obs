@@ -13,7 +13,7 @@
 | 종목 검색 | KR | `GET /symbols?q=삼성전자&limit=2` (검색어 URL 인코딩) |
 | 현재 시세·일별 가격 | KR | `GET /quotes/005930`, `GET /quotes/005930/daily` |
 | 재무·지표·매출 구성·배당·공시 가이던스 | KR, US | `GET /companies/{symbol}/financials`, `/metrics`, `/segments`, `/dividends`, `/guidance`, `/net-income-split` |
-| 스크리너·섹터·섹터 순위 | KR, US | `POST /query`: `screener`, `sector`, `sector_ranking` |
+| 스크리너·섹터·섹터 순위 | KR, US | `GET /screener`, `GET /sectors`; 기업 업종 조회는 `POST /query`: `sector` |
 | 공매도 거래·보고 잔고 | KR, US | `GET /companies/{symbol}/short-selling?series=volume` 또는 `series=balance` |
 | 공시 목록·원문 | KR | `GET /disclosures?symbol=005930`, `GET /disclosures/{14자리 접수번호}` |
 | SEC 공시 목록 | US | `GET /us-filings?symbol=AAPL&limit=2` |
@@ -26,6 +26,18 @@
 기업별 가용 기간·필드가 다릅니다. 공시 목록에 있다는 이유만으로 모든 공시에 AI 분석이 존재하는 것은 아닙니다. 한국 원문과 미국 공시 목록은 별도 엔드포인트이며, `GET /disclosures`에는 한국 `symbol`이 필요합니다. `/symbols`는 한국 종목 검색입니다.
 
 ### 스크리너·섹터
+
+간단한 조회는 전용 엔드포인트를 사용하세요.
+
+```text
+GET /screener?market=US&limit=10
+GET /screener?market=KR&per_max=15&roe_min=10&limit=10
+GET /sectors?market=US&metric=PER&limit=10
+```
+
+`/sectors`는 업종별 비교를 반환하며 `sector`를 지정하면 해당 업종의 종목 순위를 반환합니다. `metric` 기본값은 `PER`입니다. 두 경로는 기존 쿼리 엔진과 같은 데이터를 사용하며, 응답의 `results[0].ok`와 `status`를 확인한 뒤 `results[0].data`를 읽습니다. `limit`은 상위 개수(1~30)이며 커서 페이지네이션이 아닙니다. 기업 한 곳의 업종은 기존 `POST /query`의 `sector` 데이터셋으로 조회합니다.
+
+경제 **일정**(`/economic-calendar`)은 제공하지만, 경제 **지표 시계열**(`/macro/*`)과 외부 컨센서스·애널리스트 리서치는 제공하지 않습니다.
 
 Builder의 `POST /query`는 요청당 **쿼리 1개만** 받습니다. `market`과 `limit`은 아래처럼 쿼리 객체에 명시하세요.
 
@@ -73,12 +85,12 @@ Builder의 `POST /query`는 요청당 **쿼리 1개만** 받습니다. `market`�
 
 | 단계 | 기간 | 팀별 총량 | 팀별 분당 한도 |
 | --- | --- | ---: | ---: |
-| 사전 테스트 | 활성화 후 ~ 2026-11-07 00:00 전 | 1,000회 | 10회 |
-| 행사 | 2026-11-07 00:00 ~ 2026-11-08 00:00 전 | 10,000회 | 20회 |
+| 사전 테스트 | 활성화 후 ~ 2026-11-07 00:00 전 | 10,000회 | 60회 |
+| 행사 | 2026-11-07 00:00 ~ 2026-11-08 00:00 전 | 50,000회 | 120회 |
 
 - 최대 2개의 활성 DATA 키가 같은 팀 한도를 공유합니다. REST·MCP·API 문서 시험 호출도 함께 계산합니다.
-- 단계별 총량입니다. 일일 리셋이 아니며, 키를 새로 만들어도 복구되지 않습니다. 행사 시작 시 별도의 10,000회가 적용됩니다.
-- 팀별 동시 요청은 최대 2개입니다. 전체 행사 혼잡 제한도 적용될 수 있습니다.
+- 단계별 총량입니다. 일일 리셋이 아니며, 키를 새로 만들어도 복구되지 않습니다. 행사 시작 시 별도의 50,000회가 적용됩니다.
+- 팀별 동시 요청은 최대 4개입니다. 전체 행사 혼잡 제한도 적용될 수 있습니다.
 - `GET /key`, MCP 초기화·`tools/list`는 DATA 조회 총량을 사용하지 않습니다. 메타데이터 호출에도 별도 속도 제한이 있습니다.
 - 권한·시장 검사에서 거절된 요청은 조회 총량에 포함되지 않습니다. 검사 후 처리한 요청은 **400·404여도 집계될 수 있습니다.**
 - `X-Quota-*` 헤더는 Builder에서 현재 **단계**의 한도·잔여량·종료 시각을 나타냅니다.

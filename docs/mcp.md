@@ -63,3 +63,5 @@ MCP가 HTTP 200을 반환해도 JSON-RPC `error` 또는 도구 결과의 `isErro
 - 팀원이 여러 도구를 연결해도 분당·총량 한도는 팀 단위로 공유합니다.
 - 허용되지 않은 PRO·웹훅·새 AI 생성 도구를 다른 URL로 시도하지 마세요.
 - 연결 문제를 문의할 때 키·Authorization 헤더·세션은 보내지 마세요.
+
+스크리너와 섹터는 `get_screener`, `get_sector_rankings` 도구로도 바로 조회할 수 있습니다. `market`은 `KR` 또는 `US`, `limit`은 1~30입니다. 기존 `run_data_query`도 유지됩니다.

@@ -12,9 +12,9 @@ This repository is the participant guide and runnable example kit for **7 Novemb
 | DATA MCP | `https://api.chickstockfi.com/openapi/v1/mcp` |
 | Authentication | `Authorization: Bearer YOUR_TEAM_KEY` (`ck_live_…`) |
 | Keys | Up to 2 active DATA keys per team; apply with an organizer access code and email verification |
-| Pre-event | From account activation until **2026-11-07 00:00 KST**, exclusive: **1,000 total requests, 10 RPM** |
-| Event | **2026-11-07 00:00–2026-11-08 00:00 KST**, end exclusive: **10,000 total requests, 20 RPM** |
-| Concurrency | 2 requests per team; an event-wide congestion limit also applies |
+| Pre-event | From account activation until **2026-11-07 00:00 KST**, exclusive: **10,000 total requests, 60 RPM** |
+| Event | **2026-11-07 00:00–2026-11-08 00:00 KST**, end exclusive: **50,000 total requests, 120 RPM** |
+| Concurrency | 4 requests per team; an event-wide congestion limit also applies |
 
 KST is UTC+09:00. All team keys, REST, MCP and reference-console calls share the allowance. Pre-event usage does not reduce the event allowance. Key rotation and crossing midnight do not reset a phase allowance. Data access ends at expiry, with no Free-plan fallback. `/key` and MCP initialization/tool discovery do not consume the DATA allowance; metadata rate limits still apply. Admitted requests can count even when returning 400/404. Check usage in the portal or `/key`.
 
@@ -50,7 +50,7 @@ node examples/javascript/quickstart.mjs usage
 python3 examples/python/quickstart.py disclosures 005930
 ```
 
-PowerShell: set `$env:PHOENIX_DATA_KEY = 'YOUR_TEAM_KEY'` locally. Other commands: `quote 005930`, `financials AAPL`, `us-filings AAPL`, `screener US`, `earnings`, `analysis FILING_ID`. Each command sends one request, with a 20-second timeout and no automatic retries. Keep API keys on your server or local CLI, never in a public frontend bundle.
+PowerShell: set `$env:PHOENIX_DATA_KEY = 'YOUR_TEAM_KEY'` locally. Other commands: `quote 005930`, `financials AAPL`, `us-filings AAPL`, `screener US`, `sectors US`, `earnings`, `analysis FILING_ID`. Each command sends one request, with a 20-second timeout and no automatic retries. Keep API keys on your server or local CLI, never in a public frontend bundle.
 
 ## Short selling and verification recovery
 
@@ -80,3 +80,5 @@ First ask: “Use get_api_usage to check my markets, remaining allowance and exp
 Public integration questions: [Issues](https://github.com/alpsofthq/phoenix-ai-builder-kit-obs/issues). Account/private issues or continued use: [contact](https://openapi.chickstockfi.com/en/request) or help@alpsoft.io. Include time, method/path, status, error code and request ID, **never credentials or full payloads**.
 
 Verified 2026-11-04 · DATA API specification 1.19.0
+
+Screener and sectors: `GET /screener?market=US&limit=10` and `GET /sectors?market=US&metric=PER&limit=10`. Both reuse the query engine; check `results[0].ok/status` and read `results[0].data`. Limit is top-N (1–30), not cursor pagination. POST /query remains supported. Economic calendars are included; macro indicator series (/macro/*) and external consensus/analyst research are excluded.
