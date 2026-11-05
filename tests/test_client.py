@@ -21,7 +21,8 @@ class ClientTests(unittest.TestCase):
     def test_paths(self):
         self.assertIn("symbol=005930", client.request_for(["disclosures", "005930"])[0])
         self.assertIn("TEST%3A", client.request_for(["analysis", "TEST:0000000000-26-000001"])[0])
-        self.assertEqual(len(client.request_for(["screener", "US"])[1]["queries"]), 1)
+        self.assertEqual(client.request_for(["screener", "US"]), ("/screener?market=US&limit=3", None))
+        self.assertEqual(client.request_for(["sectors", "KR"]), ("/sectors?market=KR&limit=3", None))
         self.assertEqual(client.request_for(["short-volume", "005930"]), ("/companies/005930/short-selling?series=volume&limit=5", None))
         self.assertEqual(client.request_for(["short-balance", "AAPL"]), ("/companies/AAPL/short-selling?series=balance&limit=5", None))
         for args in [["quote", "AAPL"], ["screener", "JP"], ["analysis", "../key"]]:
@@ -38,7 +39,8 @@ class ClientTests(unittest.TestCase):
             def open(self, req, timeout):
                 owner.assertEqual(req.get_header("Authorization"), f"Bearer {KEY}")
                 owner.assertEqual(timeout, 20)
-                owner.assertEqual(json.loads(req.data)["queries"][0]["market"], "US")
+                owner.assertIsNone(req.data)
+                owner.assertTrue(req.full_url.endswith("/screener?market=US&limit=3"))
                 return Reply(200, {"results": [{"ok": True}]})
 
         self.assertTrue(client.call_api(client.request_for(["screener", "US"]), KEY, Opener())["results"][0]["ok"])

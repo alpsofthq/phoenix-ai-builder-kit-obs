@@ -18,9 +18,9 @@
 | 키 | `ck_live_`로 시작하는 DATA API 키. REST·MCP에서 같은 키 사용 |
 | REST Base URL | `https://api.chickstockfi.com/openapi/v1` |
 | DATA MCP | `https://api.chickstockfi.com/openapi/v1/mcp` |
-| 사전 테스트 | 계정 활성화부터 **11월 7일 00:00 KST 전까지** · 팀당 누적 **1,000회 / 10 RPM** |
-| 본 행사 | **2026-11-07 00:00 ≤ 이용 시각 < 2026-11-08 00:00 KST** · 팀당 누적 **10,000회 / 20 RPM** |
-| 동시 요청 | 팀당 최대 2개. 혼잡 시 행사 전체 한도가 추가 적용됩니다. |
+| 사전 테스트 | 계정 활성화부터 **11월 7일 00:00 KST 전까지** · 팀당 누적 **10,000회 / 60 RPM** |
+| 본 행사 | **2026-11-07 00:00 ≤ 이용 시각 < 2026-11-08 00:00 KST** · 팀당 누적 **50,000회 / 120 RPM** |
+| 동시 요청 | 팀당 최대 4개. 혼잡 시 행사 전체 한도가 추가 적용됩니다. |
 
 모든 키·REST·MCP·문서 시험 호출이 팀 한도를 공유합니다. 사전 테스트 사용량은 본 행사 한도에서 차감하지 않습니다. 키 교체나 자정 경과로 각 단계의 누적 한도가 초기화되지 않습니다. 종료 후에는 데이터 조회가 중단됩니다.
 
@@ -56,6 +56,7 @@ node examples/javascript/quickstart.mjs financials 005930
 node examples/javascript/quickstart.mjs disclosures 005930
 node examples/javascript/quickstart.mjs us-filings AAPL
 node examples/javascript/quickstart.mjs screener US
+node examples/javascript/quickstart.mjs sectors US
 node examples/javascript/quickstart.mjs earnings
 node examples/javascript/quickstart.mjs short-volume 005930
 node examples/javascript/quickstart.mjs short-balance AAPL
@@ -108,4 +109,4 @@ node examples/javascript/quickstart.mjs analysis '목록에서 받은 공시 ID'
 
 글로벌 임상시험은 제공 대상에서 제외되었으며 DATA API에서도 deprecated 처리되었습니다.
 
-문서 확인일: 2026-11-04 · DATA API 명세 1.19.0 기준
+문서 확인일: 2026-11-05 · DATA API 명세 1.20.0 기준
