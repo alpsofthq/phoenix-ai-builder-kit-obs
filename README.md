@@ -1,3 +1,10 @@
+<a href="https://openapi.chickstockfi.com/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/phoenix-wordmark-ivory.svg">
+    <img src="assets/phoenix-wordmark-ink.svg" alt="Phoenix AI" width="320" height="80">
+  </picture>
+</a>
+
 # Phoenix AI Builder Kit · OBA RUN Season 2
 
 [English](docs/en.md) · [日本語](docs/ja.md)
