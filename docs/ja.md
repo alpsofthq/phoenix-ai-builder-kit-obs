@@ -92,6 +92,6 @@ PowerShellでは`$env:PHOENIX_DATA_KEY = 'YOUR_TEAM_KEY'`を設定します。�
 - コードと画面デモは公開可能です。出典を**Phoenix AI**と表示してください。キー・パスワード・セッション・全レスポンス・データダンプ・再配布用データセットは公開しないでください。
 - イベント後の継続運用・データ再配布は別途相談が必要です。例示コードの公開とAPIデータの利用権は別です。[利用規約](https://openapi.chickstockfi.com/ja/terms)も適用されます。
 
-一般的な連携質問は[Issues](https://github.com/alpsofthq/phoenix-ai-builder-kit-obs/issues)、アカウント・非公開事項・継続利用は[お問い合わせ](https://openapi.chickstockfi.com/ja/request)またはhelp@alpsoft.ioへ。発生日時・経路・HTTP状態・エラーコード・リクエストIDを記載し、認証情報や全レスポンスは送らないでください。
+API・MCP・Builderの連携に関する質問は[Discordに参加](https://discord.gg/qS5vzGJJJ3)、参加済みの方は[サポートチャンネル](https://discord.com/channels/1545762070354591816/1567312786143453368)へ。問題ごとに投稿し、同じスレッドで続けてください。担当者が確認して順次返信します。ドキュメントやサンプルの不具合は[Issues](https://github.com/alpsofthq/phoenix-ai-builder-kit-obs/issues)、アカウント・非公開事項・継続利用は[お問い合わせ](https://openapi.chickstockfi.com/ja/request)またはhelp@alpsoft.ioへ。発生日時・経路・HTTP状態・エラーコード・リクエストIDを記載し、認証情報や全レスポンスは送らないでください。
 
-確認日：2026-11-04 · DATA API仕様1.19.0
+確認日：2026-11-07 · DATA API仕様1.21.0

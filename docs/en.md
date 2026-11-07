@@ -90,6 +90,6 @@ The screener now supports 28 KR / 27 US presets consistently across GET, POST /q
 - Project code and screen demos may be public. Credit **Phoenix AI**. Do not publish keys, passwords, sessions, full raw responses, bulk dumps or redistributable datasets. Code availability does not grant redistribution rights over API data.
 - Continued service operation or data redistribution after the event requires a separate agreement. [Terms](https://openapi.chickstockfi.com/en/terms) apply.
 
-Public integration questions: [Issues](https://github.com/alpsofthq/phoenix-ai-builder-kit-obs/issues). Account/private issues or continued use: [contact](https://openapi.chickstockfi.com/en/request) or help@alpsoft.io. Include time, method/path, status, error code and request ID, **never credentials or full payloads**.
+API/MCP and Builder integration questions: [join Discord](https://discord.gg/qS5vzGJJJ3) or [open the support channel](https://discord.com/channels/1545762070354591816/1567312786143453368) if you are already a member. Post one issue and continue in its thread; our team reviews and replies in order. Documentation/example bugs: [Issues](https://github.com/alpsofthq/phoenix-ai-builder-kit-obs/issues). Account/private issues or continued use: [contact](https://openapi.chickstockfi.com/en/request) or help@alpsoft.io. Include time, method/path, status, error code and request ID, **never credentials or full payloads**.
 
-Verified 2026-11-04 · DATA API specification 1.19.0
+Verified 2026-11-07 · DATA API specification 1.21.0

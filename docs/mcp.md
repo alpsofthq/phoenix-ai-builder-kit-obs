@@ -79,3 +79,7 @@ MCP가 HTTP 200을 반환해도 JSON-RPC `error` 또는 도구 결과의 `isErro
 ```
 
 `exchange-warning`은 KR 전용입니다. `appliedFilters`와 지표 기준일, 위험 항목의 `riskEvidence`를 함께 설명하세요. 지원하지 않는 필드는 무시되지 않고 거절됩니다. 기존 `run_data_query`에서도 동일하게 사용할 수 있으며 Builder는 요청당 쿼리 한 개만 허용합니다.
+
+## 연동 문의
+
+[Discord 개발자 지원](https://discord.gg/qS5vzGJJJ3)에서 MCP 연결·인증·도구 호출 문제를 문의할 수 있습니다. 이미 참여했다면 [개발자-연동문의 채널](https://discord.com/channels/1545762070354591816/1567312786143453368)을 여세요. 발생 시각, 사용 도구, 오류 코드와 요청 ID를 남기고 같은 스레드에서 이어가 주세요. 키·토큰·인증 헤더·고객 데이터는 공개하지 마세요. 계정·계약 관련 비공개 문의는 help@alpsoft.io로 보내 주세요.
