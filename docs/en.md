@@ -75,6 +75,12 @@ Copy/merge [Claude Code config](../config/claude.mcp.json.example) into `.mcp.js
 
 First ask: “Use get_api_usage to check my markets, remaining allowance and expiry.” Then: “Use list_disclosures with symbol=005930 and limit=2; do not generate new analysis.” Tool schemas and available tools are returned by `tools/list`. HTTP 200 can still contain a JSON-RPC error or `isError: true`.
 
+## Screeners and sectors
+
+Screener and sectors: `GET /screener?market=US&limit=10` and `GET /sectors?market=US&metric=PER&limit=10`. Both reuse the query engine; check `results[0].ok/status` and read `results[0].data`. Limit is top-N (1–30), not cursor pagination. POST /query remains supported. Economic calendars are included; macro indicator series (/macro/*) and external consensus/analyst research are excluded.
+
+The screener now supports 28 KR / 27 US presets consistently across GET, POST /query and DATA MCP, including `near-high`, `growth-pullback` and `enemy-list`. `exchange-warning` is KR-only. Custom filters include P/E, ROE, market-cap ranges, RSI, distance from the 52-week high and sort/order. Market caps use KRW 100 million for KR and USD million for US. Explicit filters override preset values; read `appliedFilters` and `presetModified`. Invalid fields, unknown presets and inverted ranges are rejected. Display `riskEvidence` codes, fiscal year and observation date; risk screens are not delisting predictions. See [examples and coverage](coverage.md#새-프리셋과-커스텀-조건).
+
 ## Errors, data and publication
 
 - For 429, obey `Retry-After`; for 503, use a small bounded retry budget with increasing delays. Do not retry invalid requests, scope denials, missing analyses, exhausted phase quotas or expired access automatically.
@@ -84,8 +90,6 @@ First ask: “Use get_api_usage to check my markets, remaining allowance and exp
 - Project code and screen demos may be public. Credit **Phoenix AI**. Do not publish keys, passwords, sessions, full raw responses, bulk dumps or redistributable datasets. Code availability does not grant redistribution rights over API data.
 - Continued service operation or data redistribution after the event requires a separate agreement. [Terms](https://openapi.chickstockfi.com/en/terms) apply.
 
-Public integration questions: [Issues](https://github.com/alpsofthq/phoenix-ai-builder-kit-obs/issues). Account/private issues or continued use: [contact](https://openapi.chickstockfi.com/en/request) or help@alpsoft.io. Include time, method/path, status, error code and request ID, **never credentials or full payloads**.
+API/MCP and Builder integration questions: [join Discord](https://discord.gg/qS5vzGJJJ3) or [open the support channel](https://discord.com/channels/1545762070354591816/1567312786143453368) if you are already a member. Post one issue and continue in its thread; our team reviews and replies in order. Documentation/example bugs: [Issues](https://github.com/alpsofthq/phoenix-ai-builder-kit-obs/issues). Account/private issues or continued use: [contact](https://openapi.chickstockfi.com/en/request) or help@alpsoft.io. Include time, method/path, status, error code and request ID, **never credentials or full payloads**.
 
-Verified 2026-11-04 · DATA API specification 1.19.0
-
-Screener and sectors: `GET /screener?market=US&limit=10` and `GET /sectors?market=US&metric=PER&limit=10`. Both reuse the query engine; check `results[0].ok/status` and read `results[0].data`. Limit is top-N (1–30), not cursor pagination. POST /query remains supported. Economic calendars are included; macro indicator series (/macro/*) and external consensus/analyst research are excluded.
+Verified 2026-11-07 · DATA API specification 1.21.0

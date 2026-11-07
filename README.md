@@ -7,7 +7,7 @@
 
 # Phoenix AI Builder Kit · OBA RUN Season 2
 
-[English](docs/en.md) · [日本語](docs/ja.md)
+[English](docs/en.md) · [日本語](docs/ja.md) · [Discord 연동 문의](https://discord.gg/qS5vzGJJJ3)
 
 ![OBA.RUN 시즌 2 — 2026년 11월 7일 해시드 라운지 행사 초기 안내](assets/oba-run-season-2-sponsor-call.png)
 
@@ -105,8 +105,11 @@ node examples/javascript/quickstart.mjs analysis '목록에서 받은 공시 ID'
 - [MCP 연결](docs/mcp.md)
 - [오류 처리·페이지네이션·FAQ](docs/troubleshooting.md)
 - [DATA API 레퍼런스](https://openapi.chickstockfi.com/docs) · [공식 OpenAPI JSON](https://api.chickstockfi.com/openapi/v1/openapi.json)
-- 일반 연동 질문: [GitHub Issues](https://github.com/alpsofthq/phoenix-ai-builder-kit-obs/issues)
+- API·MCP·Builder 연동 질문: [Discord 참여](https://discord.gg/qS5vzGJJJ3) → [개발자-연동문의](https://discord.com/channels/1545762070354591816/1567312786143453368)
+- 문서·예제 오류: [GitHub Issues](https://github.com/alpsofthq/phoenix-ai-builder-kit-obs/issues)
 - 계정·권한·행사 후 도입 문의: [문의 양식](https://openapi.chickstockfi.com/request) 또는 help@alpsoft.io
+
+Discord에는 한 문제씩 올리고 같은 메시지의 스레드에서 이어가 주세요. 담당자가 확인 후 순차 답변합니다.
 
 문의에는 발생 시각·요청 경로·HTTP 상태·오류 코드·요청 ID를 적어 주세요. **키·비밀번호·세션·전체 응답 데이터는 올리지 마세요.**
 
