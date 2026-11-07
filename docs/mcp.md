@@ -65,3 +65,17 @@ MCP가 HTTP 200을 반환해도 JSON-RPC `error` 또는 도구 결과의 `isErro
 - 연결 문제를 문의할 때 키·Authorization 헤더·세션은 보내지 마세요.
 
 스크리너와 섹터는 `get_screener`, `get_sector_rankings` 도구로도 바로 조회할 수 있습니다. `market`은 `KR` 또는 `US`, `limit`은 1~30입니다. 기존 `run_data_query`도 유지됩니다.
+
+### 새 스크리너와 커스텀 조회
+
+`get_screener`는 한국 28종·미국 27종과 커스텀 필터를 지원합니다. 예:
+
+```json
+{"market":"KR","preset":"enemy-list","limit":5}
+```
+
+```json
+{"market":"US","per_max":20,"roe_min":10,"rsi_min":40,"rsi_max":70,"market_cap_max":5000,"sort":"roe","order":"desc","limit":5}
+```
+
+`exchange-warning`은 KR 전용입니다. `appliedFilters`와 지표 기준일, 위험 항목의 `riskEvidence`를 함께 설명하세요. 지원하지 않는 필드는 무시되지 않고 거절됩니다. 기존 `run_data_query`에서도 동일하게 사용할 수 있으며 Builder는 요청당 쿼리 한 개만 허용합니다.

@@ -49,6 +49,33 @@ Builder의 `POST /query`는 요청당 **쿼리 1개만** 받습니다. `market`�
 
 스크리너·섹터 결과에 포함된 가격·시가총액·밸류에이션은 프로젝트에서 활용할 수 있습니다. 미국 시세 엔드포인트나 가격 이력·스트리밍의 직접 호출은 제공하지 않습니다.
 
+### 새 프리셋과 커스텀 조건
+
+한국 28종·미국 27종을 `GET /screener`, `POST /query`, DATA MCP에서 동일하게 사용할 수 있습니다. `exchange-warning`(거래소 경고등)은 한국 전용입니다. 지원 프리셋 전체와 필터는 [DATA API 명세](https://api.chickstockfi.com/openapi/v1/openapi.json)의 `/screener`를 확인하세요.
+
+| 프리셋 | 이름 | 시장 |
+|---|---|---|
+| `near-high` | 신고가 문턱 | KR·US |
+| `volume-wake` | 거래량이 깬 종목 | KR·US |
+| `growth-pullback` | 실적은 전진, 주가는 후진 | KR·US |
+| `dividend-growth` | 배당도 성장도 놓치기 싫어 | KR·US |
+| `profit-surge` | 이익에 가속 붙은 기업 | KR·US |
+| `enemy-list` | 웬수에게도 추천 안 함 | KR·US |
+| `loss-streak` | 3년째 적자 야근 | KR·US |
+| `exchange-warning` | 거래소 경고등 | KR |
+
+```text
+GET /screener?market=KR&preset=enemy-list&limit=10
+GET /screener?market=US&preset=near-high&limit=10
+GET /screener?market=US&per_max=20&roe_min=10&market_cap_max=5000&rsi_min=40&rsi_max=70&sort=roe&order=desc&limit=10
+```
+
+시가총액 단위는 한국 **억원**, 미국 **백만 달러**입니다. 위 미국 예시의 `market_cap_max=5000`은 50억 달러입니다. RSI는 0~100, 52주 고점 대비 비율은 -100~0 범위이며 기술 지표는 확정 일봉 기준입니다. 분봉·실시간 매매 신호가 아닙니다.
+
+`preset`과 직접 조건을 함께 보내면 직접 조건이 해당 프리셋 값을 덮어씁니다. 응답의 `appliedFilters`가 실제 적용 조건이고, 직접 조건으로 프리셋 설정을 바꾸면 `presetModified=true`입니다. 미지원 필드·없는 프리셋·역전된 범위는 오류로 반환됩니다. HTTP 상태뿐 아니라 GET·POST 모두 `results[i].ok/status/error`까지 확인하세요.
+
+위험 스크리너에서는 `rows[].riskEvidence.codes`, `fiscalYear`, `asOf`와 `finRisk`를 함께 표시하세요. 재무 위험·거래소 지정에 대한 기록이며, 상장폐지를 예측하거나 확정하는 목록이 아닙니다. 결과가 `not_ready`이면 빈 목록으로 표시하지 말고 준비 중 상태를 안내하세요.
+
 ### 공매도
 
 `GET /companies/005930/short-selling?series=volume&limit=5`처럼 조회합니다. 미국 종목은 `AAPL` 등 티커를 사용하세요. DATA MCP 도구는 `get_short_selling`입니다.

@@ -77,6 +77,12 @@ PowerShellでは`$env:PHOENIX_DATA_KEY = 'YOUR_TEAM_KEY'`を設定します。�
 
 最初に「get_api_usageで対象市場、残り回数、終了日時を確認してください」と依頼します。次に「list_disclosuresにsymbol=005930、limit=2を指定してください。新規分析は生成しないでください」と試してください。利用可能なツールと引数は`tools/list`に表示されます。HTTP 200でもJSON-RPCの`error`や`isError: true`なら成功ではありません。
 
+## スクリーナーとセクター
+
+スクリーナーとセクター: `GET /screener?market=US&limit=10`、`GET /sectors?market=US&metric=PER&limit=10`。既存のクエリエンジンと同じデータです。`results[0].ok/status`を確認して`results[0].data`を参照してください。limitは上位件数（1〜30）で、ページネーションではありません。POST /queryも引き続き利用可能です。経済カレンダーは対象ですが、経済指標の時系列（/macro/*）と外部コンセンサス・アナリストリサーチは対象外です。
+
+スクリーナーはGET、POST /query、DATA MCPで韓国28種・米国27種に対応します。`near-high`、`growth-pullback`、`enemy-list`などを利用できます。`exchange-warning`はKRのみです。PER・ROE・時価総額範囲・RSI・52週高値からの乖離率・並べ替えを指定できます。時価総額単位はKRが億ウォン、USが百万ドルです。明示した条件がプリセットを上書きし、実際の条件は`appliedFilters`、変更の有無は`presetModified`で確認できます。未対応の条件・不明なプリセット・逆転した範囲はエラーになります。リスク表示では`riskEvidence`のコード・年度・基準日を併記してください。上場廃止の予測ではありません。[例と提供範囲](coverage.md#새-프리셋과-커스텀-조건)。
+
 ## エラー・公開・問い合わせ
 
 - 429は`Retry-After`を守り、503は間隔を広げながら回数を限定して再試行します。入力不備・権限拒否・分析なし・総量超過・期限終了は自動再試行しません。
@@ -89,5 +95,3 @@ PowerShellでは`$env:PHOENIX_DATA_KEY = 'YOUR_TEAM_KEY'`を設定します。�
 一般的な連携質問は[Issues](https://github.com/alpsofthq/phoenix-ai-builder-kit-obs/issues)、アカウント・非公開事項・継続利用は[お問い合わせ](https://openapi.chickstockfi.com/ja/request)またはhelp@alpsoft.ioへ。発生日時・経路・HTTP状態・エラーコード・リクエストIDを記載し、認証情報や全レスポンスは送らないでください。
 
 確認日：2026-11-04 · DATA API仕様1.19.0
-
-スクリーナーとセクター: `GET /screener?market=US&limit=10`、`GET /sectors?market=US&metric=PER&limit=10`。既存のクエリエンジンと同じデータです。`results[0].ok/status`を確認して`results[0].data`を参照してください。limitは上位件数（1〜30）で、ページネーションではありません。POST /queryも引き続き利用可能です。経済カレンダーは対象ですが、経済指標の時系列（/macro/*）と外部コンセンサス・アナリストリサーチは対象外です。
